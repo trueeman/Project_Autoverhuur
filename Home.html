@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADR Verhuur</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">ADR Verhuur</div>
+        <nav class="nav-links">
+            <a href="#">Huurauto's</a>
+            <a href="#">Contact</a>
+            <a href="#">Mijn boekingen</a>
+        </nav>
+        <div class="login-register">
+            <button class="login">Login</button>
+            <button class="register">Register</button>
+        </div>
+    </header>
+    <main class="main-content">
+        <h2 class="form-title">Huur een auto</h2>
+        <form action="process.php" method="POST">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Ophaaldatum en -tijd</label>
+                    <input type="date" name="pickup_date" class="form-control" required>
+                    <input type="time" name="pickup_time" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Inleverdatum en -tijd</label>
+                    <input type="date" name="return_date" class="form-control" required>
+                    <input type="time" name="return_time" class="form-control" required>
+                </div>
+                <button type="submit" class="view-cars">Bekijk auto's</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

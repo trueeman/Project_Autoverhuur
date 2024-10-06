@@ -1,0 +1,91 @@
+/* style.css */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.header {
+    background-color: #d3d3d3;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: black;
+}
+
+.login-register {
+    display: flex;
+    gap: 10px;
+}
+
+.login {
+    background-color: #808080;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.register {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.main-content {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #d3d3d3;
+    padding: 20px;
+}
+
+.form-title {
+    margin-top: 0;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    align-items: flex-end;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-control {
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.view-cars {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 33px;
+}
+
+label {
+    margin-bottom: 5px;
+}
