@@ -1,41 +1,51 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADR Verhuur</title>
+    <title>ARD Verhuur</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <header class="header">
-        <div class="logo">ADR Verhuur</div>
-        <nav class="nav-links">
-            <a href="#">Huurauto's</a>
-            <a href="#">Contact</a>
-            <a href="#">Mijn boekingen</a>
-        </nav>
-        <div class="login-register">
-            <button class="login">Login</button>
-            <button class="register">Register</button>
-        </div>
-    </header>
-    <main class="main-content">
-        <h2 class="form-title">Huur een auto</h2>
-        <form action="process.php" method="POST">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Ophaaldatum en -tijd</label>
-                    <input type="date" name="pickup_date" class="form-control" required>
-                    <input type="time" name="pickup_time" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Inleverdatum en -tijd</label>
-                    <input type="date" name="return_date" class="form-control" required>
-                    <input type="time" name="return_time" class="form-control" required>
-                </div>
-                <button type="submit" class="view-cars">Bekijk auto's</button>
+    <nav class="nav-bar">
+        <div class="container">
+            <h1>ARD Verhuur</h1>
+            <div class="nav-links">
+                <a href="#" class="nav-link">Huurauto's</a>
+                <a href="#" class="nav-link">Contact</a>
+                <a href="#" class="nav-link">Mijn boekingen</a>
+                <a href="#" class="nav-link login">Login</a>
+                <a href="#" class="nav-link register">Register</a>
             </div>
-        </form>
+        </div>
+    </nav>
+
+    <main class="container-rental">
+        <div class="rental-form">
+            <h2>Huur een auto</h2>
+            <form>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Ophaaldatum en -tijd</label>
+                        <div class="input-group">
+                            <input type="date" required>
+                            <input type="time" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Inleverdatum en -tijd</label>
+                        <div class="input-group">
+                            <input type="date" required>
+                            <input type="time" required>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="search-button">Bekijk auto's</button>
+            </form>
+        </div>
     </main>
 </body>
+
 </html>
