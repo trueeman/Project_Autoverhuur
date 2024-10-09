@@ -186,11 +186,135 @@ nav a {
     font-size: 16px;
 }
 
-.crud-btn button {
-    background-color: #d3d3d3;
+.crud-btn {
+    background-color: #007bff;
+    color: white;
     border: none;
-    padding: 10px 30px;
-    border-radius: 15px;
-    font-size: 16px;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
     cursor: pointer;
+    font-size: 1rem;
+}
+
+.crud-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Global styles */
+.bg-gray-100 {
+    background-color: #f3f4f6;
+    min-height: 100vh;
+}
+
+/* Navigation styles */
+.nav-container {
+    background-color: white;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+.nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.car-icon {
+    height: 24px;
+    width: 24px;
+    color: #2563eb;
+}
+
+.logo-container h1 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Main content styles */
+.main-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.content-container {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+.content-container h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+/* Table styles */
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+}
+
+th {
+    padding: 0.75rem 1.5rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: #f9fafb;
+}
+
+td {
+    padding: 1rem 1.5rem;
+    white-space: nowrap;
+    color: #374151;
+}
+
+tbody tr {
+    border-top: 1px solid #e5e7eb;
+}
+
+.status-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+}
+
+.status-badge.available {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.status-badge.unavailable {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* CRUD button styles */
+.crud-button-container {
+    margin-top: 1.5rem;
 }
