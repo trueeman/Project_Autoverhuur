@@ -1,3 +1,23 @@
+<?php
+$host = 'localhost';
+$db   = 'autoverhuur';
+$user = 'root';
+$pass = "";
+$charset = 'utf8mb4';
+
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
+
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (\PDOException $e) {
+    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+}
+?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -8,7 +28,7 @@
 </head>
 <body class="bg-gray-100">
     <nav class="nav-container">
-        <div class="nav-content">
+         <div class="nav-content">
             <div class="logo-container">
                 <svg class="car-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 16H9m10 0h3v-3.15a1 1 0 00-.84-.99L16 11l-2.7-3.6a1 1 0 00-.8-.4H5.24a2 2 0 00-1.8 1.1l-.8 1.63A6 6 0 002 12.42V16h2"></path>
@@ -33,7 +53,7 @@
             <h2>Auto Weergave</h2>
             <div class="table-container">
                 <table>
-                    <thead>
+                    <head>
                         <tr>
                             <th>Autonaam</th>
                             <th>Model</th>
@@ -44,39 +64,25 @@
                             <th>Autotype</th>
                             <th>APK Keuring datum</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Toyota</td>
-                            <td>Camry</td>
-                            <td>€45/dag</td>
-                            <td>45,000 km</td>
-                            <td>2020</td>
-                            <td><span class="status-badge available">Beschikbaar</span></td>
-                            <td>Sedan</td>
-                            <td>01-05-2024</td>
-                        </tr>
-                        <tr>
-                            <td>Volkswagen</td>
-                            <td>Golf</td>
-                            <td>€55/dag</td>
-                            <td>30,000 km</td>
-                            <td>2021</td>
-                            <td><span class="status-badge unavailable">Niet beschikbaar</span></td>
-                            <td>Hatchback</td>
-                            <td>15-08-2024</td>
-                        </tr>
-                        <tr>
-                            <td>BMW</td>
-                            <td>3 Series</td>
-                            <td>€65/dag</td>
-                            <td>25,000 km</td>
-                            <td>2022</td>
-                            <td><span class="status-badge available">Beschikbaar</span></td>
-                            <td>Sedan</td>
-                            <td>30-11-2024</td>
-                        </tr>
-                    </tbody>
+                    </head>
+                    <body>
+                        <?php
+                        $stmt = $pdo->query("SELECT * FROM cars");
+                        while ($row = $stmt->fetch()) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row['make']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['model']) . "</td>";
+                            echo "<td>€" . number_format($row['price_per_day'], 2) . "/dag</td>";
+                            echo "<td>" . number_format($row['mileage']) . " km</td>";
+                            echo "<td>" . htmlspecialchars($row['year']) . "</td>";
+                            echo "<td><span class='status-badge " . ($row['availability'] ? "available" : "unavailable") . "'>" 
+                                 . ($row['availability'] ? "Beschikbaar" : "Niet beschikbaar") . "</span></td>";
+                            echo "<td>" . htmlspecialchars($row['category']) . "</td>";
+                            echo "<td>" . date('d-m-Y', strtotime($row['apk_date'])) . "</td>";
+                            echo "</tr>";
+                        }
+                        ?>
+                    </body>
                 </table>
             </div>
             <div class="crud-button-container">
