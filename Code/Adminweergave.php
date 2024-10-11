@@ -3,9 +3,9 @@ $host = 'localhost';
 $db   = 'autoverhuur';
 $user = 'root';
 $pass = "";
-$charset = 'utf8mb4';
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+
+$dsn = "mysql:host=$host;dbname=$db;";
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -55,7 +55,7 @@ try {
                 <table>
                     <head>
                         <tr>
-                            <th>Autonaam</th>
+                            <th>Automerk</th>
                             <th>Model</th>
                             <th>Bedrag</th>
                             <th>Kilometerstand</th>
