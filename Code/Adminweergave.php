@@ -86,7 +86,7 @@ try {
                 </table>
             </div>
             <div class="crud-button-container">
-                <button class="crud-btn">CRUD</button>
+                <button class="crud-btn"><a href="Crud.php">CRUD</a></button>
             </div>
         </div>
     </main>
