@@ -57,22 +57,25 @@ insertImage($pdo, $image_path);  // Use the correct variable $image_path here
 
     
     // Haal reserveringen op (bestaande code)
-    $stmt = $pdo->prepare("
-        SELECT 
-            CONCAT(u.first_name, ' ', u.last_name) as klantnaam,
-            c.make as automerk,
-            c.make as images,
-            c.model as automodel,
-            r.start_date as startdatum,
-            r.end_date as einddatum,
-            r.total_price as totaalprijs,
-            rs.status_name as status
-        FROM rentals r
-        JOIN users u ON r.user_id = u.user_id
-        JOIN cars c ON r.car_id = c.car_id
-        JOIN rental_statuses rs ON r.status_id = rs.status_id
-        ORDER BY u.last_name, r.start_date
-    ");
+   $stmt = $pdo->prepare("
+    SELECT 
+        CONCAT(u.first_name, ' ', u.last_name) as klantnaam,
+        c.make as automerk,
+        c.model as automodel,
+        i.data as image_data,  // Fetch image data from the images table
+        r.start_date as startdatum,
+        r.end_date as einddatum,
+        r.total_price as totaalprijs,
+        rs.status_name as status
+    FROM rentals r
+    JOIN users u ON r.user_id = u.user_id
+    JOIN cars c ON r.car_id = c.car_id
+    JOIN rental_statuses rs ON r.status_id = rs.status_id
+    LEFT JOIN images i ON i.id = c.image_id  -- Join with the images table
+    ORDER BY u.last_name, r.start_date
+");
+
+
     $stmt->execute();
 
 } catch (\PDOException $e) {
@@ -128,19 +131,22 @@ insertImage($pdo, $image_path);  // Use the correct variable $image_path here
                     <tbody>
                         <?php
                         while ($reservation = $stmt->fetch()) {
-                            $statusInfo = getStatusDisplay($reservation['status']);
-                            
-                            echo "<tr>";
-                            echo "<td>" . htmlspecialchars($reservation['klantnaam']) . "</td>";
-                            echo "<td>" . htmlspecialchars($reservation['automerk']) . "</td>";
-                            echo "<td>" . htmlspecialchars($reservation['automodel']) . "</td>";
-                            echo "<td>" . date('d-m-Y', strtotime($reservation['startdatum'])) . "</td>";
-                            echo "<td>" . date('d-m-Y', strtotime($reservation['einddatum'])) . "</td>";
-                            echo "<td>€" . number_format($reservation['totaalprijs'], 2) . "</td>";
-                            echo "<td><span class='status-badge " . $statusInfo['class'] . "'>" 
-                                 . htmlspecialchars($statusInfo['text']) . "</span></td>";
-                            echo "</tr>";
-                        }
+    $statusInfo = getStatusDisplay($reservation['status']);
+    $imageData = base64_encode($reservation['image_data']);  // Encode the binary image data
+
+    echo "<tr>";
+    echo "<td>" . htmlspecialchars($reservation['klantnaam']) . "</td>";
+    echo "<td>" . htmlspecialchars($reservation['automerk']) . "</td>";
+    echo "<td>" . htmlspecialchars($reservation['automodel']) . "</td>";
+    echo "<td><img src='data:image/jpeg;base64," . $imageData . "' alt='Car Image' width='100'/></td>";  // Display the image
+    echo "<td>" . date('d-m-Y', strtotime($reservation['startdatum'])) . "</td>";
+    echo "<td>" . date('d-m-Y', strtotime($reservation['einddatum'])) . "</td>";
+    echo "<td>€" . number_format($reservation['totaalprijs'], 2) . "</td>";
+    echo "<td><span class='status-badge " . $statusInfo['class'] . "'>" 
+         . htmlspecialchars($statusInfo['text']) . "</span></td>";
+    echo "</tr>";
+}
+
                         ?>
                     </tbody>
                 </table>
