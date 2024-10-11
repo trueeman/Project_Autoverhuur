@@ -1,3 +1,4 @@
+<!-- Emptypush -->
 <?php
 $host = 'localhost';
 $db   = 'autoverhuur';
