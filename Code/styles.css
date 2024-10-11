@@ -314,7 +314,23 @@ tbody tr {
     color: #991b1b;
 }
 
+.status-badge.completed {
+    background-color: #e0f2fe;
+    color: #075985;
+    }
+
+.status-badge.pending {
+background-color: #fef9c3;
+color: #854d0e;
+    }
 /* CRUD button styles */
 .crud-button-container {
     margin-top: 1.5rem;
+}
+
+.status-badge {
+padding: 4px 8px;
+border-radius: 4px;
+font-size: 14px;
+font-weight: 500;
 }
