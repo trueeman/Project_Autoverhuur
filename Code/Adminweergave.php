@@ -40,7 +40,7 @@ try {
             <div class="nav-buttons">
                 <a href="#" class="nav-link">Huurauto's</a>
                 <a href="#" class="nav-link">Contact</a>
-                <a href="#" class="nav-link">Mijn boekingen</a>
+                <a href="reserveringweergave.php" class="nav-link">Mijn boekingen</a>
                 <a href="Home.html" class="nav-link">Home</a>
                 <button class="nav-link login">Login</button>
                 <button class="nav-link register">Register</button>
