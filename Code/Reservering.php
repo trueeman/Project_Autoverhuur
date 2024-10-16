@@ -173,9 +173,10 @@ try {
                     </tbody>
                 </table>
             </div>
-            <div class="crud-button-container">
-                <button class="crud-btn">Nieuwe Reservering</button>
-                <button class="crud-btn">Exporteer Overzicht</button>
+          <form onsubmit="window.location.href='Reservering_new.php'; return false;">
+    <input type="submit" value="Nieuwe Reservering" name="Submit" class="crud-btn" />
+</form>
+
             </div>
         </div>
     </main>
