@@ -1,4 +1,5 @@
 <?php
+include 'navbar.php';
 $host = 'localhost';
 $db   = 'autoverhuur';
 $user = 'root';
