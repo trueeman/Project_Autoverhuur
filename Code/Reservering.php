@@ -159,7 +159,7 @@ try {
             $image = getImage($pdo, $reservation['image_id']);
             if ($image && isset($image['data'])) {
                 $imageData = base64_encode($image['data']);  // Encode image data to base64
-                $imageSrc = 'data:image/jpeg;base64,' . $imageData;  // Set up the src attribute for the image
+                $imageSrc = 'data:image/jpg;base64,' . $imageData;  // Set up the src attribute for the image
             } else {
                 $imageSrc = 'path/to/placeholder.jpg';  // Fallback image path if the image is not found
             }
@@ -172,8 +172,7 @@ try {
         echo "<td>" . htmlspecialchars($reservation['automodel']) . "</td>";
         
         // Display the image in a table cell
-        echo "<td><img src='" . htmlspecialchars($imageSrc) . "' alt='Car Image' width='100'/></td>";
-        
+         echo "<td><img src='/Project_Autoverhuur/Img/Demon Dodge 170.jpg' alt='Car Image' width='100'/></td>";
         echo "<td>" . date('d-m-Y', strtotime($reservation['startdatum'])) . "</td>";
         echo "<td>" . date('d-m-Y', strtotime($reservation['einddatum'])) . "</td>";
         echo "<td>€" . number_format($reservation['totaalprijs'], 2) . "</td>";
