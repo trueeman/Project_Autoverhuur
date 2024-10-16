@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
                 <h1>Admin Auto Weergave</h1>
             </div>
             <div class="nav-buttons">
-                <a href="test.html" class="nav-link">Huurauto's</a>
+                <a href="#" class="nav-link">Huurauto's</a>
                 <a href="#" class="nav-link">Contact</a>
                 <a href="reserveringweergave.php" class="nav-link">Mijn boekingen</a>
                 <a href="Home.html" class="nav-link">Home</a>
