@@ -142,36 +142,33 @@ try {
                     <tbody>
     <?php
     while ($reservation = $stmt->fetch()) {
-        $statusInfo = getStatusDisplay($reservation['status']);
+    $statusInfo = getStatusDisplay($reservation['status']);
 
-        // Prepare image data for the current reservation
-        $imageSrc = '';
-        if ($reservation['image_id']) {
-            // Get image data for the current reservation
-            $image = getImage($pdo, $reservation['image_id']);
-            if ($image && isset($image['data'])) {
-                $imageData = base64_encode($image['data']);  // Encode image data to base64
-                $imageSrc = 'data:image/jpg;base64,' . $imageData;  // Set up the src attribute for the image
-            } else {
-                $imageSrc = 'path/to/placeholder.jpg';  // Fallback image path if the image is not found
-            }
-        }
-
-        // Output reservation details along with the image
-        echo "<tr>";
-        echo "<td>" . htmlspecialchars($reservation['klantnaam']) . "</td>";
-        echo "<td>" . htmlspecialchars($reservation['automerk']) . "</td>";
-        echo "<td>" . htmlspecialchars($reservation['automodel']) . "</td>";
-        
-        // Display the image in a table cell
-         echo "<td><img src='/Project_Autoverhuur/Img/Demon Dodge 170.jpg' alt='Car Image' width='100'/></td>";
-        echo "<td>" . date('d-m-Y', strtotime($reservation['startdatum'])) . "</td>";
-        echo "<td>" . date('d-m-Y', strtotime($reservation['einddatum'])) . "</td>";
-        echo "<td>€" . number_format($reservation['totaalprijs'], 2) . "</td>";
-        echo "<td><span class='status-badge " . $statusInfo['class'] . "'>" 
-            . htmlspecialchars($statusInfo['text']) . "</span></td>";
-        echo "</tr>";
+    if ($reservation['automerk'] == 'Dodge') {
+        $imageSrc = '/Project_Autoverhuur/Img/Demon Dodge 170.jpg'; 
+    } elseif ($reservation['automerk'] == 'Mercedes') {
+        $imageSrc = '/Project_Autoverhuur/Img/merrie.jpg'; 
+    } elseif ($reservation['automerk'] == 'BMW') {
+        $imageSrc = '/Project_Autoverhuur/Img/bmw.jpg'; 
+    } else {
+        $imageSrc = '/Project_Autoverhuur/Img/placeholder.jpg'; 
     }
+
+    // Output reservation details along with the image
+    echo "<tr>";
+    echo "<td>" . htmlspecialchars($reservation['klantnaam']) . "</td>";
+    echo "<td>" . htmlspecialchars($reservation['automerk']) . "</td>";
+    echo "<td>" . htmlspecialchars($reservation['automodel']) . "</td>";
+    
+    // Display the specific image for each reservation
+    echo "<td><img src='" . htmlspecialchars($imageSrc) . "' alt='Car Image' width='100'/></td>";
+    echo "<td>" . date('d-m-Y', strtotime($reservation['startdatum'])) . "</td>";
+    echo "<td>" . date('d-m-Y', strtotime($reservation['einddatum'])) . "</td>";
+    echo "<td>€" . number_format($reservation['totaalprijs'], 2) . "</td>";
+    echo "<td><span class='status-badge " . $statusInfo['class'] . "'>" 
+        . htmlspecialchars($statusInfo['text']) . "</span></td>";
+    echo "</tr>";
+}
     ?>
                     </tbody>
                 </table>

@@ -15,16 +15,15 @@ try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 
     // Check if a file was uploaded
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $imageName = $_FILES['image']['name'];
-        $imageData = file_get_contents($_FILES['image']['tmp_name']);
-        $imageType = $_FILES['image']['type'];
-
-        // Prepare the SQL statement
-        $stmt = $pdo->prepare("INSERT INTO images (name, image_data) VALUES (:name, :image_data)");
-        $stmt->bindParam(':name', $imageName);
-        $stmt->bindParam(':image_data', $imageData, PDO::PARAM_LOB);
-
+    // Upload logica voor afbeelding
+if(isset($_FILES['car_image'])) {
+    $imagePath = '/Project_Autoverhuur/Img/' . basename($_FILES['car_image']['name']);
+    move_uploaded_file($_FILES['car_image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $imagePath);
+    
+    // Opslaan in database
+    $stmt = $pdo->prepare("INSERT INTO images (car_id, image_path) VALUES (:car_id, :image_path)");
+    $stmt->execute(['car_id' => $car_id, 'image_path' => $imagePath]);
+}
         // Execute the statement
         if ($stmt->execute()) {
             echo "Image uploaded successfully!";
