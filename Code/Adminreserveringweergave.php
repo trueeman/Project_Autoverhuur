@@ -69,7 +69,7 @@ try {
                 </svg>
                 <h1>Admin Reserveringen</h1>
             </div>
-            <div class="nav-links">
+             <div class="nav-links">
                 <a href="#" class="nav-link">Huurauto's</a>
                 <a href="Adminweergave.php" class="nav-link">Admin</a>
                 <a href="Test.php" class="nav-link">Contact</a>
