@@ -4,8 +4,7 @@ $db   = 'autoverhuur';
 $user = 'root';
 $pass = "";
 
-
-$dsn = "mysql:host=$host;dbname=$db;";
+$dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -15,20 +14,36 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    die("Connection failed: " . $e->getMessage());
 }
+
+// Handle Delete
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
+    if (isset($_POST['id']) && is_numeric($_POST['id'])) {
+        $id = intval($_POST['id']);
+        
+        // De daadwerkelijke delete query
+        $stmt = $pdo->prepare("DELETE FROM cars WHERE car_id = ?");
+        $stmt->execute([$id]);
+        header("Location: Adminweergave.php");
+        exit;
+    } else {
+        echo "<script>alert('Ongeldig auto ID.');</script>";
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
     <title>Admin Auto Weergave</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-gray-100">
     <nav class="nav-container">
-         <div class="nav-content">
+        <div class="nav-content">
             <div class="logo-container">
                 <svg class="car-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 16H9m10 0h3v-3.15a1 1 0 00-.84-.99L16 11l-2.7-3.6a1 1 0 00-.8-.4H5.24a2 2 0 00-1.8 1.1l-.8 1.63A6 6 0 002 12.42V16h2"></path>
@@ -53,7 +68,7 @@ try {
             <h2>Auto Weergave</h2>
             <div class="table-container">
                 <table>
-                    <head>
+                    <thead>
                         <tr>
                             <th>Automerk</th>
                             <th>Model</th>
@@ -63,9 +78,10 @@ try {
                             <th>Beschikbaar</th>
                             <th>Autotype</th>
                             <th>APK Keuring datum</th>
+                            <th>Acties</th>
                         </tr>
-                    </head>
-                    <body>
+                    </thead>
+                    <tbody>
                         <?php
                         $stmt = $pdo->query("SELECT * FROM cars");
                         while ($row = $stmt->fetch()) {
@@ -79,14 +95,21 @@ try {
                                  . ($row['availability'] ? "Beschikbaar" : "Niet beschikbaar") . "</span></td>";
                             echo "<td>" . htmlspecialchars($row['category']) . "</td>";
                             echo "<td>" . date('d-m-Y', strtotime($row['apk_date'])) . "</td>";
+                            echo "<td>
+                                    <a href='edit.php?id=" . $row['car_id'] . "' class='crud-btn edit-btn'>Bewerken</a>
+                                    <form method='POST' style='display:inline;'>
+                                        <input type='hidden' name='id' value='" . $row['car_id'] . "'>
+                                        <button type='submit' name='delete' class='crud-btn delete-btn' onclick=\"return confirm('Weet je zeker dat je deze auto wilt verwijderen?');\">Verwijderen</button>
+                                    </form>
+                                  </td>";
                             echo "</tr>";
                         }
                         ?>
-                    </body>
+                    </tbody>
                 </table>
             </div>
             <div class="crud-button-container">
-                <button class="crud-btn"><a href="Crud.php">CRUD</a></button>
+                <a href="Crud.php" class="crud-btn">Nieuwe Auto Toevoegen</a>
             </div>
         </div>
     </main>
