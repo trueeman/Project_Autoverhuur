@@ -30,6 +30,7 @@ try {
     
     $stmt = $pdo->prepare("
         SELECT 
+            r.rental_id,
             CONCAT(u.first_name, ' ', u.last_name) as klantnaam,
             c.make as automerk,
             c.model as automodel,
@@ -56,7 +57,6 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Admin Reserveringen</title>
-    
 </head>
 <body class="bg-gray-100">
     <nav class="nav-container">
@@ -93,6 +93,7 @@ try {
                             <th>Einddatum</th>
                             <th>Totaalprijs</th>
                             <th>Status</th>
+                            <th>Actie</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -109,6 +110,7 @@ try {
                             echo "<td>€" . number_format($reservation['totaalprijs'], 2) . "</td>";
                             echo "<td><span class='status-badge " . $statusInfo['class'] . "'>" 
                                  . htmlspecialchars($statusInfo['text']) . "</span></td>";
+                            echo "<td><a href='reservering_edit.php?id=" . $reservation['rental_id'] . "' class='crud-btn'>Bewerken</a></td>";
                             echo "</tr>";
                         }
                         ?>
@@ -116,7 +118,6 @@ try {
                 </table>
             </div>
             <div class="crud-button-container">
-                <button class="crud-btn">Nieuwe Reservering</button>
                 <button class="crud-btn">Exporteer Overzicht</button>
             </div>
         </div>
