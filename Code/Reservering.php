@@ -39,22 +39,14 @@ function insertImage($pdo, $imagePath) {
     $stmt->execute();
     $existingImage = $stmt->fetch();
 
-    // If the image already exists, skip the insertion
-    if ($existingImage) {
-        echo "Afbeelding al in de database: " . $imageName . "<br>";
-        return;
-    }
+
 
     // Insert the image into the database if it doesn't exist
     $stmt = $pdo->prepare("INSERT INTO images (name, data) VALUES (:name, :data)");
     $stmt->bindParam(':name', $imageName);
     $stmt->bindParam(':data', $imageData, PDO::PARAM_LOB);
 
-    if ($stmt->execute()) {
-        echo "Afbeelding succesvol ingevoegd: " . $imageName . "<br>";
-    } else {
-        echo "Fout bij het invoegen van de afbeelding: " . $imageName . "<br>";
-    }
+  
 }
 
 // Function to retrieve an image by ID
