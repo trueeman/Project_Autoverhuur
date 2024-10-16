@@ -1,5 +1,4 @@
 <?php
-include 'navbar.php';
 $host = 'localhost';
 $db   = 'autoverhuur';
 $user = 'root';
@@ -107,6 +106,27 @@ try {
     <link rel="stylesheet" href="styles.css">
     <title>Reserveringen</title>
 </head>
+<body class="bg-gray-100">
+    <nav class="nav-container">
+        <div class="nav-content">
+            <div class="logo-container">
+                <svg class="car-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 16H9m10 0h3v-3.15a1 1 0 00-.84-.99L16 11l-2.7-3.6a1 1 0 00-.8-.4H5.24a2 2 0 00-1.8 1.1l-.8 1.63A6 6 0 002 12.42V16h2"></path>
+                    <circle cx="6.5" cy="16.5" r="2.5"></circle>
+                    <circle cx="16.5" cy="16.5" r="2.5"></circle>
+                </svg>
+                <h1>Reserveringen</h1>
+            </div>
+            <div class="nav-buttons">
+                <a href="#" class="nav-link">Huurauto's</a>
+                <a href="#" class="nav-link">Klanten</a>
+                <a href="#" class="nav-link">Dashboard</a>
+                <a href="Home.html" class="nav-link">Home</a>
+                <button class="nav-link login">Login</button>
+            </div>
+        </div>
+    </nav>
+
     <main class="main-container">
         <div class="content-container">
             <h2>Reserveringsoverzicht</h2>
