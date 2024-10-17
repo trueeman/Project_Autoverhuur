@@ -95,7 +95,7 @@ try {
 <body>
     <div class="container_res">
         <h1 class="h1_res">Reservering Bewerken</h1>
-        <form action="Adminreserveringweergave.php" method="post" class="edit-reservation-form">
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>?id=<?php echo $rental_id; ?>" method="post" class="edit-reservation-form">
             <input type="hidden" name="rental_id" value="<?php echo htmlspecialchars($reservation['rental_id']); ?>">
             
             <label for="customer_name" class="label-customer-name">Klant:</label>
