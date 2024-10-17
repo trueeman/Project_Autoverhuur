@@ -120,9 +120,6 @@ try {
                     </tbody>
                 </table>
             </div>
-            <div class="crud-button-container">
-                <button class="crud-btn">Exporteer Overzicht</button>
-            </div>
         </div>
     </main>
 </body>
