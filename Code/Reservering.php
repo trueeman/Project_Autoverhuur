@@ -174,7 +174,7 @@ try {
                 </table>
             </div>
           <form onsubmit="window.location.href='Reservering_new.php'; return false;">
-    <input type="submit" value="Nieuwe Reservering" name="Submit" class="crud-btn" />
+    <input type="submit" value="Reservering Editen" name="Submit" class="crud-btn" />
 </form>
 
             </div>
