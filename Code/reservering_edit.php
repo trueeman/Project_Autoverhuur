@@ -15,38 +15,11 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
-        $rental_id = $_GET['id'];
-        
-        $stmt = $pdo->prepare("
-            SELECT 
-                r.rental_id,
-                r.user_id,
-                r.car_id,
-                r.start_date,
-                r.end_date,
-                r.total_price,
-                r.status_id,
-                CONCAT(u.first_name, ' ', u.last_name) as customer_name,
-                c.make,
-                c.model
-            FROM rentals r
-            JOIN users u ON r.user_id = u.user_id
-            JOIN cars c ON r.car_id = c.car_id
-            WHERE r.rental_id = :rental_id
-        ");
-        $stmt->execute(['rental_id' => $rental_id]);
-        $reservation = $stmt->fetch();
+    // Haal alle beschikbare statussen op
+    $statusStmt = $pdo->query("SELECT status_id, status_name FROM rental_statuses");
+    $statuses = $statusStmt->fetchAll();
 
-        if (!$reservation) {
-            die("Reservering niet gevonden.");
-        }
-
-        // Haal alle beschikbare statussen op
-        $statusStmt = $pdo->query("SELECT status_id, status_name FROM rental_statuses");
-        $statuses = $statusStmt->fetchAll();
-
-    } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Verwerk het formulier en update de reservering
         $rental_id = $_POST['rental_id'];
         $start_date = $_POST['start_date'];
@@ -72,8 +45,39 @@ try {
         ]);
 
         // Redirect terug naar de overzichtspagina
-        header("Location: reservations_overview.php");
+        header("Location: Adminreserveringweergave.php");
         exit();
+    }
+
+    // Haal de reserveringsgegevens op
+    if (isset($_GET['id'])) {
+        $rental_id = $_GET['id'];
+        
+        $stmt = $pdo->prepare("
+            SELECT 
+                r.rental_id,
+                r.user_id,
+                r.car_id,
+                r.start_date,
+                r.end_date,
+                r.total_price,
+                r.status_id,
+                CONCAT(u.first_name, ' ', u.last_name) as customer_name,
+                c.make,
+                c.model
+            FROM rentals r
+            JOIN users u ON r.user_id = u.user_id
+            JOIN cars c ON r.car_id = c.car_id
+            WHERE r.rental_id = :rental_id
+        ");
+        $stmt->execute(['rental_id' => $rental_id]);
+        $reservation = $stmt->fetch();
+
+        if (!$reservation) {
+            die("Reservering niet gevonden.");
+        }
+    } else {
+        die("Geen reserverings-ID opgegeven.");
     }
 } catch (\PDOException $e) {
     die("Database error: " . $e->getMessage());
@@ -91,7 +95,7 @@ try {
 <body>
     <div class="container_res">
         <h1 class="h1_res">Reservering Bewerken</h1>
-        <form action="edit_reservation.php" method="post" class="edit-reservation-form">
+        <form action="Adminreserveringweergave.php" method="post" class="edit-reservation-form">
             <input type="hidden" name="rental_id" value="<?php echo htmlspecialchars($reservation['rental_id']); ?>">
             
             <label for="customer_name" class="label-customer-name">Klant:</label>
@@ -122,4 +126,4 @@ try {
         </form>
     </div>
 </body>
-</html> 
+</html>
