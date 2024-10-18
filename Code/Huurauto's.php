@@ -46,24 +46,17 @@ try {
     <title>Beschikbare Huurauto's</title>
 </head>
 <body class="bg-gray-100">
-    <nav class="nav-container">
-        <div class="nav-content">
-            <div class="logo-container">
-                <svg class="car-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 16H9m10 0h3v-3.15a1 1 0 00-.84-.99L16 11l-2.7-3.6a1 1 0 00-.8-.4H5.24a2 2 0 00-1.8 1.1l-.8 1.63A6 6 0 002 12.42V16h2"></path>
-                    <circle cx="6.5" cy="16.5" r="2.5"></circle>
-                    <circle cx="16.5" cy="16.5" r="2.5"></circle>
-                </svg>
-                <h1>Beschikbare Huurauto's</h1>
-            </div>
-           <div class="nav-links">
+<nav class="nav-bar">
+        <div class="container">
+            <h1>Huurauto's</h1>
+            <div class="nav-links">
                 <a href="#" class="nav-link">Huurauto's</a>
                 <a href="Adminweergave.php" class="nav-link">Admin</a>
                 <a href="Test.php" class="nav-link">Contact</a>
                 <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
-                <a href="Adminreserveringweergave.php" class="nav-link">Reserveringen Weergave</a>
-                <a href="Insertimg.php" class="nav-link login">Login</a>
-                <a href="register" class="nav-link register">Register</a>
+                <a href="Adminreserveringweergave.php" class="nav-link">res_Weergaven</a>
+                <a href="Login.php" class="nav-link login">Login</a>
+                <a href="register.php" class="nav-link register">Register</a>
             </div>
         </div>
     </nav>
