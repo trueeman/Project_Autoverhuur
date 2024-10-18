@@ -173,7 +173,7 @@ try {
                     </tbody>
                 </table>
             </div>
-          <form onsubmit="window.location.href='Reservering_new.php'; return false;">
+          <form onsubmit="window.location.href='reservering_new.php'; return false;">
     <input type="submit" value="Reservering Editen" name="Submit" class="crud-btn" />
 </form>
 

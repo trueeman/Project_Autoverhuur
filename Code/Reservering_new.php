@@ -37,7 +37,7 @@ try {
             
             // Haal de details van de reservering van de gebruiker op
             $carStmt = $pdo->prepare("
-                SELECT r.rental_id, c.make, c.model, c.price_per_day 
+                SELECT r.rental_id, c.make, c.model, c.price_per_day, r.start_date, r.end_date, r.status_id, r.total_price 
                 FROM rentals r
                 JOIN cars c ON r.car_id = c.car_id
                 WHERE r.user_id = :user_id
@@ -49,29 +49,38 @@ try {
                 // Vul de formulier velden met de geselecteerde auto details
                 $carMake = $selectedCar['make'];
                 $carModel = $selectedCar['model'];
-                $carPrice = $selectedCar['price_per_day'];
-                $reservationId = $selectedCar['rental_id']; // Store rental_id
+                $carPrice = $selectedCar['total_price'];
+                $reservationId = $selectedCar['rental_id'];
+                $startDate = $selectedCar['start_date'];
+                $endDate = $selectedCar['end_date'];
+                $statusId = $selectedCar['status_id'];
             }
         } elseif (isset($_POST['update'])) {
             // Update de gegevens van de reservering in de database
-            $rentalId = $_POST['rental_id'];  // Retrieve rental_id from the form
-            $carPrice = $_POST['total_price'];
+            $rentalId = $_POST['rental_id'];
             $startDate = $_POST['start_date'];
             $endDate = $_POST['end_date'];
             $statusId = $_POST['status_id'];
+            $totalPrice = $_POST['total_price'];
+
+            // Bereken het aantal dagen tussen start- en einddatum
+            $start = new DateTime($startDate);
+            $end = new DateTime($endDate);
+            $interval = $start->diff($end);
+            $days = $interval->days;
 
             // Update query voor reservering
             $updateStmt = $pdo->prepare("
                 UPDATE rentals 
-                SET start_date = :start_date, end_date = :end_date, status_id = :status_id, total_price = :total_price 
+                SET start_date = :start_date, end_date = :end_date, status_id = :status_id, total_price = :total_price
                 WHERE rental_id = :rental_id
             ");
             $updateStmt->execute([
                 'start_date' => $startDate,
                 'end_date' => $endDate,
                 'status_id' => $statusId,
-                'total_price' => $carPrice,
-                'rental_id' => $rentalId  // Use rental_id to target the correct record
+                'total_price' => $totalPrice,
+                'rental_id' => $rentalId
             ]);
 
             // Omleiden naar Reservering.php na opslaan
@@ -100,6 +109,19 @@ try {
         function submitForm() {
             document.getElementById('reservation-form').submit();
         }
+
+        function updateTotalPrice() {
+            var startDate = new Date(document.getElementById('start_date').value);
+            var endDate = new Date(document.getElementById('end_date').value);
+            var pricePerDay = <?php echo json_encode($selectedCar['price_per_day'] ?? 0); ?>;
+
+            if (startDate && endDate && pricePerDay) {
+                var timeDiff = endDate - startDate;
+                var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                var totalPrice = daysDiff * pricePerDay;
+                document.getElementById('total_price').value = totalPrice.toFixed(2);
+            }
+        }
     </script>
 </head>
 <body>
@@ -125,7 +147,7 @@ try {
                     <input type="text" id="car" name="car" value="<?php echo htmlspecialchars($carMake . ' ' . $carModel); ?>" readonly>
 
                     <label for="total_price" class="label-total-price">Totaalprijs:</label>
-                    <input type="number" id="total_price" name="total_price" step="0.01" value="<?php echo htmlspecialchars($carPrice); ?>" required>
+                    <input type="text" id="total_price" name="total_price" value="<?php echo htmlspecialchars($carPrice); ?>" readonly>
 
                     <!-- Verberg rental_id -->
                     <input type="hidden" name="rental_id" value="<?php echo $reservationId; ?>">
@@ -134,15 +156,15 @@ try {
 
             <!-- Reservering details -->
             <label for="start_date" class="label-start-date">Startdatum:</label>
-            <input type="date" id="start_date" name="start_date" value="" required>
+            <input type="date" id="start_date" name="start_date" value="<?php echo $startDate ?? ''; ?>" required onchange="updateTotalPrice()">
             
             <label for="end_date" class="label-end-date">Einddatum:</label>
-            <input type="date" id="end_date" name="end_date" value="" required>
+            <input type="date" id="end_date" name="end_date" value="<?php echo $endDate ?? ''; ?>" required onchange="updateTotalPrice()">
             
             <label for="status_id" class="label-status">Status:</label>
             <select id="status_id" name="status_id" required>
                 <?php foreach ($statuses as $status): ?>
-                    <option value="<?php echo $status['status_id']; ?>">
+                    <option value="<?php echo $status['status_id']; ?>" <?php echo ($statusId == $status['status_id']) ? 'selected' : ''; ?>>
                         <?php echo htmlspecialchars($status['status_name']); ?>
                     </option>
                 <?php endforeach; ?>
