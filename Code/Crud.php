@@ -76,15 +76,11 @@ $cars = $stmt->fetchAll();
 <body class="bg-gray-100">
 <nav class="nav-bar">
         <div class="container">
-            <h1>CRUD Auto's</h1>
+            <h1>Admin Dashboard</h1>
             <div class="nav-links">
-                <a href="#" class="nav-link">Huurauto's</a>
-                <a href="Adminweergave.php" class="nav-link">Admin</a>
-                <a href="Test.php" class="nav-link">Contact</a>
-                <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
-                <a href="Adminreserveringweergave.php" class="nav-link">res_Weergaven</a>
-                <a href="Login.php" class="nav-link login">Login</a>
-                <a href="register.php" class="nav-link register">Register</a>
+                <a href="../Code/admin/Adminweergave.php" class="nav-link">Beheer Auto's</a>
+                <a href="../Code/admin/Adminreserveringweergave.php" class="nav-link">Beheer Reserveringen</a>
+                <a href="../logout.php" class="nav-link login">Uitloggen</a>
             </div>
         </div>
     </nav>
