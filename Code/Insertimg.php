@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost';   // Your MySQL host
-$db   = 'autoverhuur'; // Your database name
-$user = 'root';        // Your MySQL username
-$pass = '';            // Your MySQL password
+$host = 'localhost';   
+$db   = 'autoverhuur'; 
+$user = 'root';        
+$pass = '';            
 
 $dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
 $options = [
@@ -14,43 +14,34 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 
-    // Debugging: Check if $_POST is populated
-    var_dump($_POST); // Output the $_POST array to see what data is being sent
-
-    // Check if a file was uploaded
     if (isset($_FILES['car_image'])) {
-        // Check for any errors during upload
         if ($_FILES['car_image']['error'] !== UPLOAD_ERR_OK) {
             die("File upload error: " . $_FILES['car_image']['error']);
         }
 
-        // Define image path
-        $imagePath = '/Project_Autoverhuur/Img/' . basename($_FILES['car_image']['name']);
+        $fileData = file_get_contents($_FILES['car_image']['tmp_name']);
+        $fileName = $_FILES['car_image']['name'];
 
-        // Move the uploaded file to the specified directory
-        if (move_uploaded_file($_FILES['car_image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $imagePath)) {
-            // Check if car_id is set in the POST request
-            if (isset($_POST['car_id'])) {
-                $car_id = $_POST['car_id']; // Get car_id from the POST request
-                
-                // Save to database
-                $stmt = $pdo->prepare("INSERT INTO images (car_id, image_path) VALUES (:car_id, :image_path)");
-                $stmt->execute(['car_id' => $car_id, 'image_path' => $imagePath]);
+        if (isset($_POST['car_id'])) {
+            $car_id = $_POST['car_id'];
 
-                // Check if the image was uploaded successfully
-                if ($stmt->rowCount()) {
-                    echo "Image uploaded successfully!";
-                } else {
-                    echo "Error uploading the image.";
-                }
+            $stmt = $pdo->prepare("INSERT INTO images (car_id, name, data, upload_date) VALUES (:car_id, :name, :data, NOW())");
+            $stmt->execute([
+                'car_id' => $car_id,
+                'name' => $fileName,
+                'data' => $fileData
+            ]);
+
+            if ($stmt->rowCount()) {
+                echo "Image uploaded successfully!";
             } else {
-                echo "Car ID is not set."; // This indicates the issue
+                echo "Error uploading the image.";
             }
         } else {
-            echo "Failed to move uploaded file.";
+            echo "Car ID is not set.";
         }
     } else {
-        echo "No file uploaded or an error occurred during upload.";
+        echo "No file uploaded.";
     }
 
 } catch (PDOException $e) {
@@ -61,7 +52,7 @@ try {
 <!-- HTML form for uploading the image -->
 <form method="POST" enctype="multipart/form-data">
     <label for="car_id">Car ID:</label>
-    <input type="hidden" name="car_id" id="car_id" value="60"> 
+    <input type="hidden" name="car_id" id="car_id" value="1"> 
 
     <label for="car_image">Choose an image:</label>
     <input type="file" name="car_image" id="car_image" required>

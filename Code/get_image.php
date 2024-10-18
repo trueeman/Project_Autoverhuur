@@ -50,4 +50,3 @@ try {
     echo "An error occurred while retrieving the image.";
 }
 ?>
-?>

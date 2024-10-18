@@ -62,7 +62,7 @@ try {
     $pdo = new PDO($dsn, $user, $pass, $options);
     
     // Insert image (this can be moved to a separate script for upload functionality)
-    $imagePath = $_SERVER["DOCUMENT_ROOT"] . "/Project_Autoverhuur/Img/Demon Dodge 170.jpg";
+    $imagePath = $_SERVER["DOCUMENT_ROOT"] . "/Project_Autoverhuur/Img/Dodge Demon 170.jpg";
     insertImage($pdo, $imagePath);
 
     // Query for reservations and images
@@ -145,7 +145,7 @@ try {
     $statusInfo = getStatusDisplay($reservation['status']);
 
     if ($reservation['automerk'] == 'Dodge') {
-        $imageSrc = '/Project_Autoverhuur/Img/Demon Dodge 170.jpg'; 
+        $imageSrc = '/Project_Autoverhuur/Img/Dodge Demon 170.jpg'; 
     } elseif ($reservation['automerk'] == 'Mercedes') {
         $imageSrc = '/Project_Autoverhuur/Img/merrie.jpg'; 
     } elseif ($reservation['automerk'] == 'BMW') {
