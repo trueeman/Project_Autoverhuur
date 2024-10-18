@@ -90,7 +90,10 @@ try {
             // Kies het juiste afbeelding-pad op basis van automerk
             if ($car['automerk'] == 'Dodge') {
                 $imageSrc = '/Project_Autoverhuur/Img/Dodge Demon 170.jpg'; 
-            } elseif ($car['automerk'] == 'Mercedes') {
+            }
+            elseif ($car['automerk'] == 'Audi') {
+                $imageSrc = '/Project_Autoverhuur/Img/audi a3.jpg'; 
+            }  elseif ($car['automerk'] == 'Mercedes') {
                 $imageSrc = '/Project_Autoverhuur/Img/merrie.jpg'; 
             } elseif ($car['automerk'] == 'BMW') {
                 $imageSrc = '/Project_Autoverhuur/Img/bmw.jpg'; 
