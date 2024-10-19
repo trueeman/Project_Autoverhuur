@@ -126,7 +126,7 @@ if (isset($_GET['id'])) {
             <a href="Test.php" class="nav-link">Contact</a>
             <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
             <a href="Adminreserveringweergave.php" class="nav-link">res_Weergaven</a>
-            <a href="Login.php" class="nav-link login">Login</a>
+            <a href="login.php" class="nav-link login">Login</a>
             <a href="register.php" class="nav-link register">Register</a>
         </div>
     </div>
