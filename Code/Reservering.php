@@ -138,6 +138,8 @@ try {
 
     if ($reservation['automerk'] == 'Dodge') {
         $imageSrc = '/Project_Autoverhuur/Img/Dodge Demon 170.jpg'; 
+         } elseif ($reservation['automerk'] == 'Audi') {
+        $imageSrc = '/Project_Autoverhuur/Img/audi a3.jpg'; 
     } elseif ($reservation['automerk'] == 'Mercedes') {
         $imageSrc = '/Project_Autoverhuur/Img/merrie.jpg'; 
     } elseif ($reservation['automerk'] == 'BMW') {
@@ -166,7 +168,7 @@ try {
                 </table>
             </div>
           <form onsubmit="window.location.href='reservering_new.php'; return false;">
-    <input type="submit" value="Reservering Editen" name="Submit" class="crud-btn" />
+    <input type="submit" value="Reserveren" name="Submit" class="crud-btn" />
 </form>
 
             </div>
