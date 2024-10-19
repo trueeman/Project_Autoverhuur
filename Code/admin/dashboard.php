@@ -142,7 +142,7 @@ try {
                 <h2>Snelle Acties</h2>
                 <div style="display: flex; gap: 1rem; margin-top: 1rem;">
                     <a href="../Crud.php" class="crud-btn">Nieuwe Auto Toevoegen</a>
-                    <a href="../Adminreserveringweergave.php" class="crud-btn">Alle Reserveringen Bekijken</a>
+                    <a href="../admin/Adminreserveringweergave.php" class="crud-btn">Alle Reserveringen Bekijken</a>
                 </div>
             </div>
         </div>
