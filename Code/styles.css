@@ -103,7 +103,7 @@ input[type="time"] {
 }
 
 .search-button {
-    background-color: #ff4444;
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 0.75rem 2rem;
@@ -113,7 +113,7 @@ input[type="time"] {
 }
 
 .search-button:hover {
-    background-color: #ee3333;
+    background-color: #0266d0;
 }
 
 /* Responsive adjustments */
