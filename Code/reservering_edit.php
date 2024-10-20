@@ -1,59 +1,41 @@
 <?php
-$host = 'localhost';
-$db   = 'autoverhuur';
-$user = 'root';
-$pass = "";
-$charset = 'utf8mb4';
+class Database {
+    private $host = 'localhost';
+    private $db = 'autoverhuur';
+    private $user = 'root';
+    private $pass = '';
+    private $charset = 'utf8mb4';
+    private $pdo;
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
+    public function __construct() {
+        $dsn = "mysql:host={$this->host};dbname={$this->db};charset={$this->charset}";
+        $options = [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => false,
+        ];
 
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-
-    // Haal alle beschikbare statussen op
-    $statusStmt = $pdo->query("SELECT status_id, status_name FROM rental_statuses");
-    $statuses = $statusStmt->fetchAll();
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Verwerk het formulier en update de reservering
-        $rental_id = $_POST['rental_id'];
-        $start_date = $_POST['start_date'];
-        $end_date = $_POST['end_date'];
-        $total_price = $_POST['total_price'];
-        $status_id = $_POST['status_id'];
-
-        $stmt = $pdo->prepare("
-            UPDATE rentals 
-            SET start_date = :start_date, 
-                end_date = :end_date, 
-                total_price = :total_price, 
-                status_id = :status_id
-            WHERE rental_id = :rental_id
-        ");
-
-        $stmt->execute([
-            'start_date' => $start_date,
-            'end_date' => $end_date,
-            'total_price' => $total_price,
-            'status_id' => $status_id,
-            'rental_id' => $rental_id
-        ]);
-
-        // Redirect terug naar de overzichtspagina
-        header("Location: Adminreserveringweergave.php");
-        exit();
+        try {
+            $this->pdo = new PDO($dsn, $this->user, $this->pass, $options);
+        } catch (\PDOException $e) {
+            die("Database error: " . $e->getMessage());
+        }
     }
 
-    // Haal de reserveringsgegevens op
-    if (isset($_GET['id'])) {
-        $rental_id = $_GET['id'];
-        
-        $stmt = $pdo->prepare("
+    public function getConnection() {
+        return $this->pdo;
+    }
+}
+
+class Rental {
+    private $pdo;
+
+    public function __construct($pdo) {
+        $this->pdo = $pdo;
+    }
+
+    public function getRental($rental_id) {
+        $stmt = $this->pdo->prepare("
             SELECT 
                 r.rental_id,
                 r.user_id,
@@ -71,16 +53,58 @@ try {
             WHERE r.rental_id = :rental_id
         ");
         $stmt->execute(['rental_id' => $rental_id]);
-        $reservation = $stmt->fetch();
-
-        if (!$reservation) {
-            die("Reservering niet gevonden.");
-        }
-    } else {
-        die("Geen reserverings-ID opgegeven.");
+        return $stmt->fetch();
     }
-} catch (\PDOException $e) {
-    die("Database error: " . $e->getMessage());
+
+    public function updateRental($data) {
+        $stmt = $this->pdo->prepare("
+            UPDATE rentals 
+            SET start_date = :start_date, 
+                end_date = :end_date, 
+                total_price = :total_price, 
+                status_id = :status_id
+            WHERE rental_id = :rental_id
+        ");
+
+        $stmt->execute([
+            'start_date' => $data['start_date'],
+            'end_date' => $data['end_date'],
+            'total_price' => $data['total_price'],
+            'status_id' => $data['status_id'],
+            'rental_id' => $data['rental_id']
+        ]);
+    }
+
+    public function getRentalStatuses() {
+        $stmt = $this->pdo->query("SELECT status_id, status_name FROM rental_statuses");
+        return $stmt->fetchAll();
+    }
+}
+
+// Initialisatie van de database en het Rental-object
+$db = new Database();
+$rentalModel = new Rental($db->getConnection());
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verwerk het formulier en update de reservering
+    $rentalModel->updateRental($_POST);
+    // Redirect terug naar de overzichtspagina
+    header("Location: Adminreserveringweergave.php");
+    exit();
+}
+
+// Haal de reserveringsgegevens op
+if (isset($_GET['id'])) {
+    $rental_id = $_GET['id'];
+    $reservation = $rentalModel->getRental($rental_id);
+
+    if (!$reservation) {
+        die("Reservering niet gevonden.");
+    }
+
+    $statuses = $rentalModel->getRentalStatuses();
+} else {
+    die("Geen reserverings-ID opgegeven.");
 }
 ?>
 
@@ -93,37 +117,51 @@ try {
     <title>Reservering Bewerken</title>
 </head>
 <body>
-    <div class="container_res">
-        <h1 class="h1_res">Reservering Bewerken</h1>
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>?id=<?php echo $rental_id; ?>" method="post" class="edit-reservation-form">
-            <input type="hidden" name="rental_id" value="<?php echo htmlspecialchars($reservation['rental_id']); ?>">
-            
-            <label for="customer_name" class="label-customer-name">Klant:</label>
-            <input type="text" id="customer_name" name="customer_name" value="<?php echo htmlspecialchars($reservation['customer_name']); ?>" readonly>
-            
-            <label for="car" class="label-car">Auto:</label>
-            <input type="text" id="car" name="car" value="<?php echo htmlspecialchars($reservation['make'] . ' ' . $reservation['model']); ?>" readonly>
-            
-            <label for="start_date" class="label-start-date">Startdatum:</label>
-            <input type="date" id="start_date" name="start_date" value="<?php echo htmlspecialchars($reservation['start_date']); ?>" required>
-            
-            <label for="end_date" class="label-end-date">Einddatum:</label>
-            <input type="date" id="end_date" name="end_date" value="<?php echo htmlspecialchars($reservation['end_date']); ?>" required>
-            
-            <label for="total_price" class="label-total-price">Totaalprijs:</label>
-            <input type="number" id="total_price" name="total_price" step="0.01" value="<?php echo htmlspecialchars($reservation['total_price']); ?>" required>
-            
-            <label for="status_id" class="label-status">Status:</label>
-            <select id="status_id" name="status_id" required>
-                <?php foreach ($statuses as $status): ?>
-                    <option value="<?php echo $status['status_id']; ?>" <?php echo ($status['status_id'] == $reservation['status_id']) ? 'selected' : ''; ?>>
-                        <?php echo htmlspecialchars($status['status_name']); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-            
-            <input type="submit" value="Opslaan">
-        </form>
+<nav class="nav-bar">
+    <div class="container">
+        <h1>Admin Weergave Auto's</h1>
+        <div class="nav-links">
+            <a href="#" class="nav-link">Huurauto's</a>
+            <a href="Adminweergave.php" class="nav-link">Admin</a>
+            <a href="Test.php" class="nav-link">Contact</a>
+            <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
+            <a href="Adminreserveringweergave.php" class="nav-link">res_Weergaven</a>
+            <a href="login.php" class="nav-link login">Login</a>
+            <a href="register.php" class="nav-link register">Register</a>
+        </div>
     </div>
+</nav>
+<div class="container_res">
+    <h1 class="h1_res">Reservering Bewerken</h1>
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>?id=<?php echo $rental_id; ?>" method="post" class="edit-reservation-form">
+        <input type="hidden" name="rental_id" value="<?php echo htmlspecialchars($reservation['rental_id']); ?>">
+        
+        <label for="customer_name" class="label-customer-name">Klant:</label>
+        <input type="text" id="customer_name" name="customer_name" value="<?php echo htmlspecialchars($reservation['customer_name']); ?>" readonly>
+        
+        <label for="car" class="label-car">Auto:</label>
+        <input type="text" id="car" name="car" value="<?php echo htmlspecialchars($reservation['make'] . ' ' . $reservation['model']); ?>" readonly>
+        
+        <label for="start_date" class="label-start-date">Startdatum:</label>
+        <input type="date" id="start_date" name="start_date" value="<?php echo htmlspecialchars($reservation['start_date']); ?>" required>
+        
+        <label for="end_date" class="label-end-date">Einddatum:</label>
+        <input type="date" id="end_date" name="end_date" value="<?php echo htmlspecialchars($reservation['end_date']); ?>" required>
+        
+        <label for="total_price" class="label-total-price">Totaalprijs:</label>
+        <input type="number" id="total_price" name="total_price" step="0.01" value="<?php echo htmlspecialchars($reservation['total_price']); ?>" required>
+        
+        <label for="status_id" class="label-status">Status:</label>
+        <select id="status_id" name="status_id" required>
+            <?php foreach ($statuses as $status): ?>
+                <option value="<?php echo $status['status_id']; ?>" <?php echo ($status['status_id'] == $reservation['status_id']) ? 'selected' : ''; ?>>
+                    <?php echo htmlspecialchars($status['status_name']); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        
+        <input type="submit" value="Opslaan">
+    </form>
+</div>
 </body>
 </html>
