@@ -37,16 +37,15 @@ session_start();
 <body>
 <nav class="nav-bar">
         <div class="container">
-            <h1>Registreer</h1>
+            <h1>Huurauto's</h1>
             <div class="nav-links">
-                <a href="#" class="nav-link">Huurauto's</a>
-                <a href="Adminweergave.php" class="nav-link">Admin</a>
-                <a href="Test.php" class="nav-link">Contact</a>
+                <a href="Huurauto's.php" class="nav-link">Huurauto's</a>
+                <a href="./admin/Adminreserveringweergave.php" class="nav-link">Admin</a>
+                <a href="Contact.php" class="nav-link">Contact</a>
                 <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
                 <a href="Adminreserveringweergave.php" class="nav-link">res_Weergaven</a>
-                <a href="reservering_edit.php" class="nav-link">Edit</a>
-                <a href="Insertimg.php" class="nav-link login">Login</a>
-                <a href="register" class="nav-link register">Register</a>
+                <a href="login.php" class="nav-link login">Login</a>
+                <a href="register.php" class="nav-link register">Register</a>
             </div>
         </div>
     </nav>

@@ -70,7 +70,7 @@ try {
         <div class="container">
             <h1>Admin Dashboard</h1>
             <div class="nav-links">
-                <a href="../Adminweergave.php" class="nav-link">Beheer Auto's</a>
+                <a href=".././admin/Adminreserveringweergave.php" class="nav-link">Beheer Auto's</a>
                 <a href="../Adminreserveringweergave.php" class="nav-link">Beheer Reserveringen</a>
                 <a href="../logout.php" class="nav-link login">Uitloggen</a>
             </div>

@@ -55,7 +55,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
     <title>Admin Reserveringen</title>
 </head>
 <body class="bg-gray-100">
@@ -64,8 +64,8 @@ try {
             <h1>Admin Weergave Reserveringen</h1>
             <div class="nav-links">
                 <a href="#" class="nav-link">Huurauto's</a>
-                <a href="Adminweergave.php" class="nav-link">Admin</a>
-                <a href="Test.php" class="nav-link">Contact</a>
+                <a href="dashboard.php" class="nav-link">Dashboard</a>
+                <a href="Contact.php" class="nav-link">Contact</a>
                 <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
                 <a href="Adminreserveringweergave.php" class="nav-link">res_Weergaven</a>
                 <a href="Login.php" class="nav-link login">Login</a>

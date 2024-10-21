@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $stmt = $pdo->prepare("UPDATE cars SET make = ?, model = ?, year = ?, price_per_day = ?, availability = ?, category = ?, mileage = ?, apk_date = ? WHERE car_id = ?");
     $stmt->execute([$make, $model, $year, $price_per_day, $availability, $category, $mileage, $apk_date, $id]);
 
-    header("Location: Adminweergave.php");
+    header("Location: ./admin/Adminreserveringweergave.php");
     exit;
 }
 ?>
@@ -63,14 +63,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 <body class="bg-gray-100">
 <nav class="nav-bar">
         <div class="container">
-            <h1>Edit</h1>
+            <h1>Huurauto's</h1>
             <div class="nav-links">
-                <a href="#" class="nav-link">Huurauto's</a>
-                <a href="Adminweergave.php" class="nav-link">Admin</a>
-                <a href="Test.php" class="nav-link">Contact</a>
+                <a href="Huurauto's.php" class="nav-link">Huurauto's</a>
+                <a href="./admin/Adminreserveringweergave.php" class="nav-link">Admin</a>
+                <a href="Contact.php" class="nav-link">Contact</a>
                 <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
                 <a href="Adminreserveringweergave.php" class="nav-link">res_Weergaven</a>
-                <a href="Login.php" class="nav-link login">Login</a>
+                <a href="login.php" class="nav-link login">Login</a>
                 <a href="register.php" class="nav-link register">Register</a>
             </div>
         </div>
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                     </div>
 
                     <button type="submit" name="update" class="crud-btn">Opslaan</button>
-                    <a href="Adminweergave.php" class="crud-btn">Annuleren</a>
+                    <a href="./admin/Adminreserveringweergave.php" class="crud-btn">Annuleren</a>
                 </form>
             <?php endif; ?>
         </div>
