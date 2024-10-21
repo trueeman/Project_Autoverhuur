@@ -118,19 +118,19 @@ if (isset($_GET['id'])) {
 </head>
 <body>
 <nav class="nav-bar">
-    <div class="container">
-        <h1>Admin Weergave Auto's</h1>
-        <div class="nav-links">
-            <a href="#" class="nav-link">Huurauto's</a>
-            <a href="Adminweergave.php" class="nav-link">Admin</a>
-            <a href="Test.php" class="nav-link">Contact</a>
-            <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
-            <a href="Adminreserveringweergave.php" class="nav-link">res_Weergaven</a>
-            <a href="login.php" class="nav-link login">Login</a>
-            <a href="register.php" class="nav-link register">Register</a>
+        <div class="container">
+            <h1>Huurauto's</h1>
+            <div class="nav-links">
+                <a href="Huurauto's.php" class="nav-link">Huurauto's</a>
+                <a href="./admin/Adminreserveringweergave.php" class="nav-link">Admin</a>
+                <a href="Contact.php" class="nav-link">Contact</a>
+                <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
+                <a href="Adminreserveringweergave.php" class="nav-link">res_Weergaven</a>
+                <a href="login.php" class="nav-link login">Login</a>
+                <a href="register.php" class="nav-link register">Register</a>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 <div class="container_res">
     <h1 class="h1_res">Reservering Bewerken</h1>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>?id=<?php echo $rental_id; ?>" method="post" class="edit-reservation-form">

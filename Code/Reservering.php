@@ -71,10 +71,11 @@ try {
 <body class="bg-gray-100">
 <nav class="nav-bar">
         <div class="container">
-            <h1>Mijn Reserveringen</h1>
+            <h1>Reserveringen</h1>
             <div class="nav-links">
-                <a href="Home.php" class="nav-link">Home</a>
-                <a href="Huurauto's.php" class="nav-link">Huurauto's</a>
+                <a href="#" class="nav-link">Huurauto's</a>
+                <a href="Adminweergave.php" class="nav-link">Admin</a>
+                <a href="reserveringsweergave.php" class="nav-link">Contact</a>
                 <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
                 <a href="Test.php" class="nav-link">Contact</a>
                 <a href="logout.php" class="nav-link login">Uitloggen</a>

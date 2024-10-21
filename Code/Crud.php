@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
 
     $stmt = $pdo->prepare("INSERT INTO cars (make, model, price_per_day, mileage, year, availability, category, apk_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->execute([$make, $model, $price_per_day, $mileage, $year, $availability, $category, $apk_date]);
-    header("Location: Adminweergave.php");
+    header("Location: ./admin/Adminreserveringweergave.php");
     exit;
 }
 
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 
     $stmt = $pdo->prepare("UPDATE cars SET make=?, model=?, price_per_day=?, mileage=?, year=?, availability=?, category=?, apk_date=? WHERE id=?");
     $stmt->execute([$make, $model, $price_per_day, $mileage, $year, $availability, $category, $apk_date, $id]);
-    header("Location: Adminweergave.php");
+    header("Location: ./admin/Adminreserveringweergave.php");
     exit;
 }
 
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $id = $_POST['id'];
     $stmt = $pdo->prepare("DELETE FROM cars WHERE id=?");
     $stmt->execute([$id]);
-    header("Location: Adminweergave.php");
+    header("Location: ./admin/Adminreserveringweergave.php");
     exit;
 }
 
@@ -78,7 +78,7 @@ $cars = $stmt->fetchAll();
         <div class="container">
             <h1>Admin Dashboard</h1>
             <div class="nav-links">
-                <a href="../Code/admin/Adminweergave.php" class="nav-link">Beheer Auto's</a>
+                <a href="../Code/admin/./admin/Adminreserveringweergave.php" class="nav-link">Beheer Auto's</a>
                 <a href="../Code/admin/Adminreserveringweergave.php" class="nav-link">Beheer Reserveringen</a>
                 <a href="../logout.php" class="nav-link login">Uitloggen</a>
             </div>

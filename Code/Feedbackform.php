@@ -24,7 +24,7 @@
             </div>
             <div class="nav-links">
                 <a href="#" class="nav-link">Huurauto's</a>
-                <a href="Adminweergave.php" class="nav-link">Admin</a>
+                <a href="./admin/Adminreserveringweergave.php" class="nav-link">Admin</a>
                 <a href="Contact.php" class="nav-link">Contact</a>
                 <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
                 <a href="Adminreserveringweergave.php" class="nav-link">Reserveringen Weergave</a>

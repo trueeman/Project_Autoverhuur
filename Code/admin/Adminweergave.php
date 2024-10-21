@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
         // De daadwerkelijke delete query
         $stmt = $pdo->prepare("DELETE FROM cars WHERE car_id = ?");
         $stmt->execute([$id]);
-        header("Location: Adminweergave.php");
+        header("Location: ./admin/Adminreserveringweergave.php");
         exit;
     } else {
         echo "<script>alert('Ongeldig auto ID.');</script>";
@@ -39,19 +39,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Auto Weergave</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body class="bg-gray-100">
 <nav class="nav-bar">
         <div class="container">
-            <h1>Admin Weergave Auto's</h1>
+            <h1>Huurauto's</h1>
             <div class="nav-links">
-                <a href="#" class="nav-link">Huurauto's</a>
-                <a href="Adminweergave.php" class="nav-link">Admin</a>
-                <a href="Test.php" class="nav-link">Contact</a>
+                <a href="Huurauto's.php" class="nav-link">Huurauto's</a>
+                <a href="./admin/Adminreserveringweergave.php" class="nav-link">Admin</a>
+                <a href="Contact.php" class="nav-link">Contact</a>
                 <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
                 <a href="Adminreserveringweergave.php" class="nav-link">res_Weergaven</a>
-                <a href="Login.php" class="nav-link login">Login</a>
+                <a href="login.php" class="nav-link login">Login</a>
                 <a href="register.php" class="nav-link register">Register</a>
             </div>
         </div>
