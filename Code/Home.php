@@ -7,7 +7,7 @@
     <title>ARD Verhuur</title>
     <link rel="stylesheet" href="styles.css">
 </head>
- 
+
 <body>
     <nav class="nav-bar">
         <div class="container">
@@ -28,7 +28,7 @@
     <main class="container-rental">
         <div class="rental-form">
             <h2>Huur een auto</h2>
-            <form>
+            <form action="Huurautos.php" method="GET">
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="pickup-location">Ophaallocatie</label>
@@ -65,10 +65,7 @@
                         </div>
                     </div>
                 </div>
-                <form onsubmit="window.location.href='Huurautos.php'; return false;">
-            <input type="submit" value="Auto Reserveren" name="Submit" class="crud-btn" />
-          </form>
-            </form>
+                <input type="submit" value="Auto Reserveren" name="Submit" class="crud-btn" />
             </form>
         </div>
     </main>
