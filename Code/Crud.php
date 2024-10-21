@@ -78,13 +78,14 @@ $cars = $stmt->fetchAll();
         <div class="container">
             <h1>Admin Dashboard</h1>
             <div class="nav-links">
-                <a href="../Code/admin/./admin/Adminreserveringweergave.php" class="nav-link">Beheer Auto's</a>
-                <a href="../Code/admin/Adminreserveringweergave.php" class="nav-link">Beheer Reserveringen</a>
+                <a href="../admin/Adminweergave.php" class="nav-link">Beheer Auto's</a>
+                <a href="../admin/Adminreserveringweergave.php" class="nav-link">Beheer Reserveringen</a>
+                <a href="../admin/dashboard.php" class="nav-link">Dashboard</a>
                 <a href="../logout.php" class="nav-link login">Uitloggen</a>
             </div>
         </div>
     </nav>
-
+    
     <main class="main-container">
         <div class="content-container">
             <h2>Auto Weergave</h2>
