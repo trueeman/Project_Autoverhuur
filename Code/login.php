@@ -77,7 +77,7 @@ session_start();
                         if ($user['role_id'] == 1) {
                             header("Location: admin/dashboard.php");
                         } else {
-                            header("Location: home.html");
+                            header("Location: Home.php");
                         }
                         exit();
                     } else {
