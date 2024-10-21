@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$db   = 'autoverhuur';  // Your database name
-$user = 'root';  // Your database username
-$pass = "";  // Your database password
+$db   = 'autoverhuur';
+$user = 'root';
+$pass = "";
 
 $dsn = "mysql:host=$host;dbname=$db;";
 $options = [
@@ -12,30 +12,27 @@ $options = [
 ];
 
 try {
-    // Create a new PDO instance
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (PDOException $e) {
     die("Error: Could not connect to the database. " . $e->getMessage());
 }
 
-// Now prepare and execute the SQL query
-try {
-    // Prepare the SQL query to fetch car details
-    $stmt = $pdo->prepare("
-        SELECT 
-            c.make AS automerk,
-            c.model AS automodel,
-            c.price_per_day AS prijs_per_dag
-        FROM cars c
-        ORDER BY c.make, c.model
-    ");
-    
-    // Execute the query
-    $stmt->execute();
+// Get filter value from POST if it exists
+$filter = isset($_POST['filter']) ? $_POST['filter'] : '';
 
-} catch (PDOException $e) {
-    die("Error: Could not execute the SQL query. " . $e->getMessage());
-}
+// Prepare the SQL query with optional filter
+$sql = "
+    SELECT 
+        c.make AS automerk,
+        c.model AS automodel,
+        c.price_per_day AS prijs_per_dag
+    FROM cars c
+    WHERE c.make LIKE :filter
+    ORDER BY c.make, c.model
+";
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute(['filter' => "%$filter%"]);
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -46,7 +43,7 @@ try {
     <title>Beschikbare Huurauto's</title>
 </head>
 <body class="bg-gray-100">
-<nav class="nav-bar">
+    <nav class="nav-bar">
         <div class="container">
             <h1>Huurauto's</h1>
             <div class="nav-links">
@@ -64,6 +61,14 @@ try {
     <main class="main-container">
         <div class="content-container">
             <h2>Beschikbare Huurauto's</h2>
+            
+            <!-- Filter form -->
+            <form method="POST" action="" class="filter-form">
+                <input type="text" name="filter" value="<?php echo htmlspecialchars($filter); ?>" 
+                       placeholder="Filter op automerk" class="filter-input">
+                <input type="submit" value="Filter" class="filter-button">
+            </form>
+            
             <div class="table-container">
                 <table>
                     <thead>
@@ -75,47 +80,35 @@ try {
                         </tr>
                     </thead>
                     <tbody>
-    <?php
-    // Check if the statement executed successfully and contains data
-    if ($stmt) {
-        // Fetch car data and display in table rows
-        while ($car = $stmt->fetch()) {
-            // Kies het juiste afbeelding-pad op basis van automerk
-            if ($car['automerk'] == 'Dodge') {
-                $imageSrc = '/Project_Autoverhuur/Img/Dodge Demon 170.jpg'; 
-            }
-            elseif ($car['automerk'] == 'Audi') {
-                $imageSrc = '/Project_Autoverhuur/Img/audi a3.jpg'; 
-            }  elseif ($car['automerk'] == 'Mercedes') {
-                $imageSrc = '/Project_Autoverhuur/Img/merrie.jpg'; 
-            } elseif ($car['automerk'] == 'BMW') {
-                $imageSrc = '/Project_Autoverhuur/Img/bmw.jpg'; 
-            } else {
-                $imageSrc = '/Project_Autoverhuur/Img/placeholder.jpg';  // Voor alle andere merken
-            }
+                    <?php
+                    while ($car = $stmt->fetch()) {
+                        // Determine image source based on car make
+                        if ($car['automerk'] == 'Dodge') {
+                            $imageSrc = '/Project_Autoverhuur/Img/Dodge Demon 170.jpg';
+                        } elseif ($car['automerk'] == 'Audi') {
+                            $imageSrc = '/Project_Autoverhuur/Img/audi a3.jpg';
+                        } elseif ($car['automerk'] == 'Mercedes') {
+                            $imageSrc = '/Project_Autoverhuur/Img/merrie.jpg';
+                        } elseif ($car['automerk'] == 'BMW') {
+                            $imageSrc = '/Project_Autoverhuur/Img/bmw.jpg';
+                        } else {
+                            $imageSrc = '/Project_Autoverhuur/Img/placeholder.jpg';
+                        }
 
-            // Output car details along with the image
-            echo "<tr>";
-            echo "<td>" . htmlspecialchars($car['automerk']) . "</td>";
-            echo "<td>" . htmlspecialchars($car['automodel']) . "</td>";
-            
-            // Display car image
-            echo "<td><img src='" . htmlspecialchars($imageSrc) . "' alt='Car Image' width='100'/></td>";
-            echo "<td>€" . number_format($car['prijs_per_dag'], 2) . "</td>";
-            echo "</tr>";
-        }
-    } else {
-        // If no data was found or query failed, display a message
-        echo "<tr><td colspan='4'>Geen auto's beschikbaar.</td></tr>";
-    }
-    ?>
-
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($car['automerk']) . "</td>";
+                        echo "<td>" . htmlspecialchars($car['automodel']) . "</td>";
+                        echo "<td><img src='" . htmlspecialchars($imageSrc) . "' alt='Car Image' width='100'/></td>";
+                        echo "<td>€" . number_format($car['prijs_per_dag'], 2) . "</td>";
+                        echo "</tr>";
+                    }
+                    ?>
                     </tbody>
                 </table>
             </div>
-          <form onsubmit="window.location.href='Reservering_new.php'; return false;">
-            <input type="submit" value="Auto Reserveren" name="Submit" class="crud-btn" />
-          </form>
+            <form action="Reservering_new.php" method="GET">
+                <input type="submit" value="Auto Reserveren" class="crud-btn" />
+            </form>
         </div>
     </main>
 </body>

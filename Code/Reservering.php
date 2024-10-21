@@ -73,12 +73,15 @@ try {
         <div class="container">
             <h1>Reserveringen</h1>
             <div class="nav-links">
-                <a href="#" class="nav-link">Huurauto's</a>
-                <a href="Adminweergave.php" class="nav-link">Admin</a>
-                <a href="reserveringsweergave.php" class="nav-link">Contact</a>
+                <div class="nav-links">
+                <a href="Home.php" class="nav-link">Home</a>
+                <a href="Huurautos.php" class="nav-link">Huurauto's</a>
+                <a href="Feedbackform.php" class="nav-link">Contact</a>
                 <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
-                <a href="Test.php" class="nav-link">Contact</a>
-                <a href="logout.php" class="nav-link login">Uitloggen</a>
+                <a href="Adminreserveringweergave.php" class="nav-link">res_Weergaven</a>
+                <a href="reservering_edit.php" class="nav-link">Edit</a>
+                <a href="login.php" class="nav-link login">Login</a>
+                <a href="register.php" class="nav-link register">Register</a>
             </div>
         </div>
     </nav>

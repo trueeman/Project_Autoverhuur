@@ -13,7 +13,8 @@
         <div class="container">
             <h1>Home</h1>
             <div class="nav-links">
-                <a href="#" class="nav-link">Huurauto's</a>
+                <a href="Home.php" class="nav-link">Home</a>
+                <a href="Huurautos.php" class="nav-link">Huurauto's</a>
                 <a href="Adminweergave.php" class="nav-link">Admin</a>
                 <a href="Test.php" class="nav-link">Contact</a>
                 <a href="Reservering.php" class="nav-link">Mijn boekingen</a>
